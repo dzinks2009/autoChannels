@@ -153,7 +153,16 @@ $config = [
 			*/
 			
 			'idWhereOnline' => 2,
-
+			
+			/*
+				Linijka konfiguracji: verifyChannelGroup
+				
+					- ID grupy którą nada na kanale po wejściu na kanał nadaj rangę.
+					- Przyklad: 11
+			*/
+			
+			'verifyChannelGroup' => 11,
+			
 			'channelsToCreate' => [
 				/*
 					Jeśli konfiguracja kanału zawiera 'name', zostanie mu nadana taka nazwa przy stworzeniu.
@@ -163,6 +172,8 @@ $config = [
 					Jeśli konfiguracja kanału zawiera 'correctName', nazwa tego kanału zostanie poprawiana.
 
 					Jeśli konfiguracja kanału zawiera 'assignHCA', zostanie właścicielowi nadana ranga.
+					
+					Jeśli konfiguracja kanału zawiera 'topic', zostanie ustawiony taki topic kanału.
 
 					Jeśli konfiguracja kanału zawiera 'subChannels', zostaną tworzone tam podkanały.
 					
@@ -179,18 +190,22 @@ $config = [
 					'name' => '[cspacer][ [CH_NUMER] ] Premium | [NAME]',
 					'dbName' => 'mainChannelName',
 					'correctName' => true,
+					'topic' => 'Testowy topic 1 - #[CH_NUMER]',
 				],
 				'2' => [
 					'name' => '[cspacer[CH_NUMER]]Status Online: [ONLINE]/[TOGETHER] ([PERCENT]%)',
 					'dbName' => 'onlineFromGroup',
+					'topic' => 'Testowy topic 2 - #[CH_NUMER]',
 				],
 				'3' => [
 					'name' => '[cspacer[NUMER]]———————————————',
+					'topic' => 'Testowy topic 3 - #[CH_NUMER]',
 				],
 				'4' => [
 					'name' => '[cspacer[NUMER]]┄┄┉┉[ Weryfikacja ]┉┉┄┄',
 					'dbName' => 'mainChannelVerification',
 					'assignHCA' => true,
+					'topic' => 'Testowy topic 4 - #[CH_NUMER]',
 					'subChannels' => [
 						'type' => 'serverChannelGroup',
 						'name' => '• Daj/Zabierz Rangę [ [NAME] ]',
@@ -202,6 +217,7 @@ $config = [
 					'name' => '[cspacer[NUMER]]┄┄┉┉[ Liderówka ]┉┉┄┄',
 					'dbName' => 'mainChannelLeaders',
 					'assignHCA' => true,
+					'topic' => 'Testowy topic 5 - #[CH_NUMER]',
 					'subChannels' => [
 						'type' => 'leadersChannels',
 						'howMany' => 3,
@@ -215,6 +231,7 @@ $config = [
 					'dbName' => 'mainChannel',
 					'assignHCA' => true,
 					'main_channel' => true,
+					'topic' => 'Testowy topic 6 - #[CH_NUMER]',
 					'subChannels' => [
 						'type' => 'userChannels',
 						'howMany' => 10,
