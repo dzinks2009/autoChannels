@@ -9,12 +9,12 @@ class onlineMembers{
 				$countOnline = 0;
 				$countOffline = 0;
 
-				$text = '[center][size=14][b]Lista dostÄ™pnych uÅ¼ytkownikÃ³w z[/b] '.$channel["group_name"].'[/center][size=11][list]\n';
+				$text = '[center][size=14][b]Lista dostępnych użytkowników z[/b] '.$channel["group_name"].'[/center][size=11][list]\n';
 				$members = $ts->serverGroupClientList($channel["group_id"], true)["data"];
 				if(empty($members[0]["cldbid"])){
 					$countOnline = 0;
 					$countOffline = 0;
-					$text .= '[size=9]Brak uÅ¼ytkownikÃ³w w tej grupie.[/size]\n';
+					$text .= '[size=9]Brak użytkowników w tej grupie.[/size]\n';
 				}else{
 					foreach($members as $member){
 						$clientInfo = $ts->clientDbInfo($member['cldbid'])["data"];
@@ -44,9 +44,9 @@ class onlineMembers{
 								if($time["minutes"] == 1){ $timeString .= "[b]".$time["minutes"]."[/b] minuty";
 								}else{ $timeString .= "[b]".$time["minutes"]."[/b] minut"; }
 							}
-							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krÃ³tkiej chwili[/b]"; }
+							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krótkiej chwili[/b]"; }
 
-							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=green][b]dostÄ™pny[/color] od '.$timeString.' na kanale [b][url=channelID://'.$clientOnlineInfo["cid"].']'.$channelInfo["channel_name"].'[/url][/b].\n\n';
+							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=green][b]dostępny[/color] od '.$timeString.' na kanale [b][url=channelID://'.$clientOnlineInfo["cid"].']'.$channelInfo["channel_name"].'[/url][/b].\n\n';
 						}else{
 							$countOffline++;
 
@@ -68,9 +68,9 @@ class onlineMembers{
 								if($time["minutes"] == 1){ $timeString .= "[b]".$time["minutes"]."[/b] minuty";
 								}else{ $timeString .= "[b]".$time["minutes"]."[/b] minut"; }
 							}
-							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krÃ³tkiej chwili[/b]"; }
+							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krótkiej chwili[/b]"; }
 
-							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=red][b]niedostÄ™pny[/color] od '.$timeString.'.\n\n';
+							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=red][b]niedostępny[/color] od '.$timeString.'.\n\n';
 						}
 					}
 				}
