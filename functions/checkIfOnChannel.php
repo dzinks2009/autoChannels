@@ -52,7 +52,7 @@ class checkIfOnChannel{
 							(isset($vipChannel["id"])) ? $numer = $vipChannel["num"]+1 : $numer = 1;
 
 							if($zConfig["groupToCopy"] !== 0){
-								$groupId = $ts->serverGroupCopy(11, 0, str_replace("[NUMER]", $numer, $zConfig["groupName"]), $type = 1);
+								$groupId = $ts->serverGroupCopy($zConfig["groupToCopy"], 0, str_replace("[NUMER]", $numer, $zConfig["groupName"]), $type = 1);
            							$ts->serverGroupAddClient($groupId["data"]["sgid"], $person['client_database_id']);
 							}
 
