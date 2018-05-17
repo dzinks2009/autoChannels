@@ -3,247 +3,230 @@
 $config = [
 	'teamSpeak' => [
 		/*
-			Linijka konfiguracji: serverIP
-
-				- Adres serwera z którym bot ma sie polaczyc.
-				- Przyklad: 127.0.0.1
-
-			Linijka konfiguracji: serverPort
-
-				- Port UDP z którym bot ma sie polaczyc.
-				- Przyklad: 10011
-
-			Linijka konfiguracji: serverQueryPort
-
-				- Port query z którym bot ma sie polaczyc.
-				- Przyklad: 10011
-
-			Linijka konfiguracji: serverQueryLogin
-
-				- Nazwa uzytkownika która bot uzyje przy logowaniu.
-				- Przyklad: serveradmin
-
-			Linijka konfiguracji: serverQueryPassw
-
-				- Haslo uzytkownika które bot uzyje przy logowaniu.
-				- Przyklad: 10011
-
-			Linijka konfiguracji: botName
-
-				- Nazwa bota.
-				- Przyklad: FlameSpeak.PL @Kanaly
-
-			Linijka konfiguracji: botChannel
-
-				- Kanał bota.
-				- Przyklad: 1
-
-			Linijka konfiguracji: interval
-
-				- Co ile mają się wykonywać akcje.
-				- Przyklad: 15
+			'serverIP' => Adres serwera z którym bot ma sie polaczyc.
+			'serverPort' => Port UDP z którym bot ma sie polaczyc.
+			'serverQueryPort' => Port query z którym bot ma sie polaczyc.
+			'serverQueryLogin' => Nazwa uzytkownika która bot uzyje przy logowaniu.
+			'serverQueryPassw' => Haslo uzytkownika które bot uzyje przy logowaniu.
+			'botName' => Nazwa bota.
+			'botChannel' => Kanał bota.
+			'interval' => Co ile mają się wykonywać akcje.
 		*/
 
 		'serverIP' => '127.0.0.1',
-
 		'serverPort' => 9987,
-
 		'serverQueryPort' => 10011,
-
 		'serverQueryLogin' => "serveradmin",
-
 		'serverQueryPassw' => "",
-
 		'botName' => 'FlameSpeak.PL @Kanaly',
-
 		'botChannel' => 2,
-
 		'interval' => 1,
 
 	],
 
 	'database' => [
 		/*
-			Linijka konfiguracji: dbAddress
-
-				- Adres serwera SQL.
-				- Przyklad: 127.0.0.1
-
-			Linijka konfiguracji: dbLogin
-
-				- Nazwa uzytkownika aby zalogowac sie do serwera SQL.
-				- Przyklad: root
-
-			Linijka konfiguracji: dbPassw
-
-				- Haslo uzytkownika aby zalogowac sie do serwera SQL.
-				- Przyklad: haslo
-
-			Linijka konfiguracji: dbTable
-
-				- Nazwa tabelki gdzie beda sie umieszczane informacje o kanalach VIP.
-				- Przyklad: tabelka
+			'dbAddress' => Adres serwera SQL.
+			'dbLogin' => Nazwa uzytkownika aby zalogowac sie do serwera SQL.
+			'dbPassw' => Haslo uzytkownika aby zalogowac sie do serwera SQL.
+			'dbTable' => Nazwa tabelki gdzie beda sie umieszczane informacje o kanalach VIP.
 		*/
 
 		'dbAddress' => 'localhost',
-
-		'dbLogin' => '',
-
+		'dbLogin' => 'root',
 		'dbPassw' => '',
-
 		'dbTable' => 'db'
 	],
 
 	'zones' => [
 		'elite' => [
 			/*
-				Linijka konfiguracji: getChannel
-				
-					- Gdzie trza wejść by dostać kanał w tej strefie.
-					- Przyklad: 2
+				'getChannel' => Id kanału gdzię się dostaje kanał
+				'groupToCopy' => Grupę którą bot będzie kopiował
+				'groupName' => Nazwa grupy która będzie ustawiana
+				'hcaGroup' => Id grupy kanałowej właściciela
+				'verifyChannelGroup' => Id grupy kanałowej która zostanie nadana po wejściu na kanał nadaj/zabierz rangę
+				'guestChannelGroup' => Grupa kanałowa gościa
 			*/
+
 			'getChannel' => 2,
-
-			/*
-				Linijka konfiguracji: groupToCopy
-				
-					- ID grupy którą ma kopiować.
-					- Przyklad: 2
-			*/
-			
 			'groupToCopy' => 11,
-
-			/*
-				Linijka konfiguracji: groupName
-				
-					- Nazwa grupy po skopiowaniu.
-					- Przyklad: Elite: #[NUMER]
-			*/
-			
 			'groupName' => ' Elite: #[NUMER] ',
-
-			/*
-				Linijka konfiguracji: hcaGroup
-				
-					- ID grupy kanałowej właściciela kanału.
-					- Przyklad: Elite: #[NUMER]
-			*/
-			
 			'hcaGroup' => 9,
-
-			/*
-				Linijka konfiguracji: onlineTable,mainChannelTable,mainNumChannelTable,groupManageTable
-				
-					- Nazwy te powinny kierować do nazw w bazie danych.
-			*/
-			
-			'onlineTable' => 'onlineFromGroup',
-			
-			'mainChannelTable' => 'mainChannel',
-			
-			'mainNumChannelTable' => 'mainChannelName',
-			
-			'groupManageTable' => 'serverChannelGroup',
-			
-			/*
-				Linijka konfiguracji: idWhereOnline
-				
-					- ID w channelsToCreate gdzie się znajduje status online.
-					- Przyklad: 2
-			*/
-			
-			'idWhereOnline' => 2,
-			
-			/*
-				Linijka konfiguracji: verifyChannelGroup
-				
-					- ID grupy którą nada na kanale po wejściu na kanał nadaj rangę.
-					- Przyklad: 11
-			*/
-			
 			'verifyChannelGroup' => 11,
-			
+			'guestChannelGroup' => 8,
+			'online_description' => [
+				'top' => '[center][size=14][b]Lista dostępnych użytkowników z[/b] [NAME] [/center]\n[size=11][list]',
+
+				'usermsg' => [
+					'online' => '[*][url=client://0/[CLUID]][NICK][/url] jest aktualnie [color=green][b]dostępny[/color] od [CZAS] na kanale [b][url=channelID://[CID]][CH_NAME][/url][/b].\n\n',
+					'offline' => '[*][url=client://0/[CLUID]][NICK][/url] jest aktualnie [color=red][b]niedostępny[/color] od [CZAS].\n\n',
+					'noneInGroup' => '[/size][size=9]Brak użytkowników w tej grupie.[/size]\n',
+				],
+
+				'bottom' => '[/size][hr][right]Wygenerowane przez [b]Lolka(?)[/b].',
+			],
 			'channelsToCreate' => [
 				/*
-					Jeśli konfiguracja kanału zawiera 'name', zostanie mu nadana taka nazwa przy stworzeniu.
-					
-					Jeśli konfiguracja kanału zawiera 'dbName', zostanie dodanie ten kanał do bazy danych.
-
-					Jeśli konfiguracja kanału zawiera 'correctName', nazwa tego kanału zostanie poprawiana.
-
-					Jeśli konfiguracja kanału zawiera 'assignHCA', zostanie właścicielowi nadana ranga.
-					
-					Jeśli konfiguracja kanału zawiera 'topic', zostanie ustawiony taki topic kanału.
-
-					Jeśli konfiguracja kanału zawiera 'subChannels', zostaną tworzone tam podkanały.
-					
-						Jeśli konfiguracja kanału zawiera 'howMany', zostanie taka liczba użyta do stworzenia podkanałów.
-
-						Jeśli konfiguracja kanału zawiera 'channelsToSubChannels', zostanie stworzony podkanał do podkanału.
-						
-						Jeśli konfiguracja kanału zawiera 'subChannelsName', podkanał do podkanału będzie zawierał taką nazwę.
+					'name' => Nazwa kanału
+					'database_name' => Jeżeli ta linijka jest podana w konfiguracji kanału id stworzonego kanału trafi do bazy
+					'type' => Kanały z typem 'online','rank', lub 'main' są potrzebne do innych funkcji takich jak onlineMembers lub addGroup
+					'assign_owner' => Zostanie nadana ranga właściciela
+					'permissions' => Zostaną nadane permissje kanałowi
+					'channel_topic' => Zostanie ustawiony "temat" kanału
 				*/
-				'0' => [
+
+				0 => [
 					'name' => '[cspacer[NUMER]]———————————————',
+					'database_name' => 'spacer1',
 				],
-				'1' => [
-					'name' => '[cspacer][ [CH_NUMER] ] Premium | [NAME]',
-					'dbName' => 'mainChannelName',
-					'correctName' => true,
-					'topic' => 'Testowy topic 1 - #[CH_NUMER]',
+				1 => [
+					'name' => '[cspacer[CH_NUMER]][ [CH_NUMER] ] Kanał - Elite',
+					'database_name' => 'nameChannel',
 				],
-				'2' => [
+				2 => [
 					'name' => '[cspacer[CH_NUMER]]Status Online: [ONLINE]/[TOGETHER] ([PERCENT]%)',
-					'dbName' => 'onlineFromGroup',
-					'topic' => 'Testowy topic 2 - #[CH_NUMER]',
+					'database_name' => 'statusChannel',
+					'type' => 'online',
 				],
-				'3' => [
+				3 => [
 					'name' => '[cspacer[NUMER]]———————————————',
-					'topic' => 'Testowy topic 3 - #[CH_NUMER]',
+					'database_name' => 'spacer2',
 				],
-				'4' => [
+				4 => [
 					'name' => '[cspacer[NUMER]]┄┄┉┉[ Weryfikacja ]┉┉┄┄',
-					'dbName' => 'mainChannelVerification',
-					'assignHCA' => true,
-					'topic' => 'Testowy topic 4 - #[CH_NUMER]',
+					'database_name' => 'verifyChannel',
+					'assign_owner' => true,
+					'permissions' => [
+						'i_channel_needed_join_power' => 50,
+					],
+
 					'subChannels' => [
-						'type' => 'serverChannelGroup',
-						'name' => '• Daj/Zabierz Rangę [ [NAME] ]',
-						'dbName' => 'serverChannelGroup',
-						'correctName' => true,
+						0 => [
+							'name' => '• Daj/Zabierz Rangę [ [NAME] ]',
+							'correct' => true,
+							'database_name' => 'rankChannel',
+							'type' => 'rank',
+						],
 					],
 				],
-				'5' => [
+				5 => [
 					'name' => '[cspacer[NUMER]]┄┄┉┉[ Liderówka ]┉┉┄┄',
-					'dbName' => 'mainChannelLeaders',
-					'assignHCA' => true,
-					'topic' => 'Testowy topic 5 - #[CH_NUMER]',
+					'database_name' => 'leadersChannel',
+					'assign_owner' => true,
+					'permissions' => [
+						'i_channel_join_power' => 50,
+					],
+
 					'subChannels' => [
-						'type' => 'leadersChannels',
-						'howMany' => 3,
-						'name' => '• [Lider] Kanał [NUMER]',
-						'channelsToSubChannels' => true,
-						'subChannelsName' => '[NUMER]. Podkanał',
+						0 => [
+							'name' => '• [Lider] Kanał [NUMER]',
+							'count' => 3,
+			
+							'subChannels' => [
+								0 => [
+									'name' => 'Podkanał Lidera',
+									'open' => true,
+								],
+							],
+						],
 					],
 				],
-				'6' => [
+				6 => [
 					'name' => '[cspacer[NUMER]]┄┄┉┉[ Kanał Główny ]┉┉┄┄',
-					'dbName' => 'mainChannel',
-					'assignHCA' => true,
-					'main_channel' => true,
-					'topic' => 'Testowy topic 6 - #[CH_NUMER]',
+					'database_name' => 'mainChannel',
+					'type' => 'main',
+					'assign_owner' => true,
+					'permissions' => [
+						'i_channel_join_power' => 50,
+					],
+
 					'subChannels' => [
-						'type' => 'userChannels',
-						'howMany' => 10,
-						'name' => '[NUMER]. Podkanał',
+						0 => [
+							'name' => '[NUMER]. Podkanał',
+							'count' => 9,
+						],
+						1 => [
+							'name' => '10. Rekrutacja',
+							'open' => true,
+						],
 					],
 				],
-				'7' => [
-					'name' => '[cspacer[NUMER]]',
+				7 => [
+					'name' => '[spacer[NUMER]#lastChannel:elite]',
+					'database_name' => 'spacer3',
+					'channel_topic' => '#lastChannel:elite',
+				],
+			],
+		],
+		'mc' => [
+			'getChannel' => 4689,
+			'groupToCopy' => 80,
+			'groupName' => ' MC: #[NUMER] ',
+			'hcaGroup' => 12,
+			'verifyChannelGroup' => 11,
+			'guestChannelGroup' => 8,
+			'online_description' => [
+				'top' => '[center][size=14][b]Lista dostępnych użytkowników z[/b] [NAME] [/center]\n[size=11][list]',
+
+				'usermsg' => [
+					'online' => '[*][url=client://0/[CLUID]][NICK][/url] jest aktualnie [color=green][b]dostępny[/color] od [CZAS] na kanale [b][url=channelID://[CID]][CH_NAME][/url][/b].\n\n',
+					'offline' => '[*][url=client://0/[CLUID]][NICK][/url] jest aktualnie [color=red][b]niedostępny[/color] od [CZAS].\n\n',
+					'noneInGroup' => '[/size][size=9]Brak użytkowników w tej grupie.[/size]\n',
+				],
+
+				'bottom' => '[/size][hr][right]Wygenerowane przez [b]Lolka(?)[/b].',
+			],
+			'channelsToCreate' => [
+				0 => [
+					'name' => '[spacer][»] Kanał MC | [CH_NUMER] |',
+					'database_name' => 'nameChannel',
+					'assign_owner' => true,
+
+					'subChannels' => [
+						0 => [
+							'name' => 'Automatyzacja:',
+							'database_name' => 'verifyChannel',
+
+							'subChannels' => [
+								0 => [
+									'name' => '● Daj / Zabierz rangę',
+									'database_name' => 'rankChannel',
+									'type' => 'rank'
+								],
+								1 => [
+									'name' => '● Online z [NAME]: [ONLINE]/[TOGETHER]',
+									'database_name' => 'statusChannel',
+									'type' => 'online'
+								],
+							],
+						],
+						1 => [
+							'name' => 'Kanał Główny: [NAME]',
+							'database_name' => 'mainChannel',
+							'type' => 'main',
+							'correct' => true,
+
+							'subChannels' => [
+								0 => [
+									'name' => '[NUMER]. Podkanał',
+									'count' => 4,
+								],
+								1 => [
+									'name' => '5. Rekrutacja',
+									'open' => true,
+								],						
+							],
+						],
+					],
+				],
+				1 => [
+					'name' => '[spacer[NUMER]#lastChannel:mc]',
+					'database_name' => 'spacer1',
+					'channel_topic' => '#lastChannel:mc',
 				],
 			],
 		],
 	],
-
 ];
 

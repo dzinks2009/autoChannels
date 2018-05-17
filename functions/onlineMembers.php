@@ -9,12 +9,12 @@ class onlineMembers{
 				$countOnline = 0;
 				$countOffline = 0;
 
-				$text = '[center][size=14][b]Lista dostępnych użytkowników z[/b] '.$channel["group_name"].'[/center][size=11][list]\n';
+				$text = str_replace("[NAME]", $channel["group_name"], $zConfig["online_description"]["top"]);
 				$members = $ts->serverGroupClientList($channel["group_id"], true)["data"];
 				if(empty($members[0]["cldbid"])){
 					$countOnline = 0;
 					$countOffline = 0;
-					$text .= '[size=9]Brak użytkowników w tej grupie.[/size]\n';
+					$text .= $zConfig["online_description"]["usermsg"]["noneInGroup"];
 				}else{
 					foreach($members as $member){
 						$clientInfo = $ts->clientDbInfo($member['cldbid'])["data"];
@@ -46,7 +46,7 @@ class onlineMembers{
 							}
 							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krótkiej chwili[/b]"; }
 
-							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=green][b]dostępny[/color] od '.$timeString.' na kanale [b][url=channelID://'.$clientOnlineInfo["cid"].']'.$channelInfo["channel_name"].'[/url][/b].\n\n';
+							$text .= str_replace(array("[CLUID]","[NICK]","[CZAS]","[CID]","[CH_NAME]"), array($clientInfo['client_unique_identifier'], $clientInfo["client_nickname"], $timeString, $clientOnlineInfo["cid"], $channelInfo["channel_name"]), $zConfig["online_description"]["usermsg"]["online"]);
 						}else{
 							$countOffline++;
 
@@ -70,27 +70,50 @@ class onlineMembers{
 							}
 							if($time["minutes"] == 0 && $time["hours"] == 0 && $time["days"] == 0){ $timeString .= "[b]krótkiej chwili[/b]"; }
 
-							$text .= '[*][url=client://0/'.$clientInfo['client_unique_identifier'].']'.$clientInfo['client_nickname'].'[/url] jest aktualnie [color=red][b]niedostępny[/color] od '.$timeString.'.\n\n';
+							$text .= str_replace(array("[CLUID]","[NICK]","[CZAS]"), array($clientInfo['client_unique_identifier'], $clientInfo["client_nickname"], $timeString), $zConfig["online_description"]["usermsg"]["offline"]);
 						}
 					}
 				}
+				$text .= $zConfig["online_description"]["bottom"];
 
-				$text .= '[/list]\n';
+				foreach($zConfig["channelsToCreate"] as $namesToDb){
+					if(isset($namesToDb["type"]) && $namesToDb["type"] == "online"){
+						$dbName = $namesToDb["database_name"];
+						$channelName = $namesToDb["name"];
+						break;
+					}
+					if(isset($namesToDb["subChannels"])){
+						foreach($namesToDb["subChannels"] as $subChannels){
+							if(isset($subChannels["type"]) && $subChannels["type"] == "online"){
+								$dbName = $subChannels["database_name"];
+								$channelName = $subChannels["name"];
+								break;
+							}	
+							if(isset($subChannels["subChannels"])){
+								foreach($subChannels["subChannels"] as $subChannels1){
+									if(isset($subChannels1["type"]) && $subChannels1["type"] == "online"){
+										$dbName = $subChannels1["database_name"];
+										$channelName = $subChannels1["name"];
+										break;
+									}
+								}
+							}
+						}
+					}
+				}	
 
-				$channelInfo = $ts->channelInfo($channel[$zConfig["onlineTable"]])["data"];
+				$channelInfo = $ts->channelInfo($channel[$dbName])["data"];
 	
 				if($countOffline+$countOnline == 0){
-					$channelName = str_replace(array("[CH_NUMER]","[ONLINE]", "[TOGETHER]", "[PERCENT]"), array($channel["num"], 0,0,0), $zConfig["channelsToCreate"][$zConfig["idWhereOnline"]]["name"]);
+					$channelName = str_replace(array("[CH_NUMER]","[ONLINE]", "[TOGETHER]", "[PERCENT]", "[NAME]"), array($channel["channel_num"], 0,0,0, $channel["group_name"]), $channelName);
 				}else{
-					$channelName = str_replace(array("[CH_NUMER]","[ONLINE]", "[TOGETHER]", "[PERCENT]"), array($channel["num"], $countOnline,($countOnline+$countOffline),floor((($countOnline)/($countOnline+$countOffline)*100))), $zConfig["channelsToCreate"][$zConfig["idWhereOnline"]]["name"]);
+					$channelName = str_replace(array("[CH_NUMER]","[ONLINE]", "[TOGETHER]", "[PERCENT]", "[NAME]"), array($channel["channel_num"], $countOnline,($countOnline+$countOffline),floor((($countOnline)/($countOnline+$countOffline)*100)), $channel["group_name"]), $channelName);
 				}
-
 				if($channelInfo["channel_name"] !== $channelName){
-					$ts->channelEdit($channel[$zConfig["onlineTable"]],array('channel_name' => $channelName));
-
+					$ts->channelEdit($channel[$dbName],array('channel_name' => $channelName));
 				}
 				if($channelInfo["channel_description"] !== $text){
-					$ts->channelEdit($channel[$zConfig["onlineTable"]],array('channel_description' => $text));
+					$ts->channelEdit($channel[$dbName],array('channel_description' => $text));
 				}
 
 			}

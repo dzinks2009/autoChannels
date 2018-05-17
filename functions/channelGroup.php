@@ -6,23 +6,50 @@ class channelGroup{
 			$statement->execute();
 			$channels = $statement->fetchAll(PDO::FETCH_ASSOC);
 			foreach($channels as $channel){
-				if($ts->channelInfo($channel[$zConfig["groupManageTable"]])["data"]["seconds_empty"] == "-1"){
-					$peopleOnChannel = $ts->channelClientList($channel[$zConfig["groupManageTable"]], "-groups")["data"];
+				foreach($zConfig["channelsToCreate"] as $namesToDb){
+					if(isset($namesToDb["type"]) && $namesToDb["type"] == "rank"){
+						$dbNameRank = $namesToDb["database_name"];
+					}
+					if(isset($namesToDb["type"]) && $namesToDb["type"] == "main"){
+						$dbNameMain = $namesToDb["database_name"];
+					}
+					if(isset($namesToDb["subChannels"])){
+						foreach($namesToDb["subChannels"] as $subChannels){
+							if(isset($subChannels["type"]) && $subChannels["type"] == "rank"){
+								$dbNameRank = $subChannels["database_name"];
+							}	
+							if(isset($subChannels["type"]) && $subChannels["type"] == "main"){
+								$dbNameMain = $subChannels["database_name"];
+							}	
+							if(isset($subChannels["subChannels"])){
+								foreach($subChannels["subChannels"] as $subChannels1){
+									if(isset($subChannels1["type"]) && $subChannels1["type"] == "rank"){
+										$dbNameRank = $subChannels1["database_name"];
+									}
+									if(isset($subChannels1["type"]) && $subChannels1["type"] == "main"){
+										$dbNameMain = $subChannels1["database_name"];
+									}
+								}
+							}
+						}
+					}
+				}
+
+				if($ts->channelInfo($channel[$dbNameRank])["data"]["seconds_empty"] == "-1"){
+					$peopleOnChannel = $ts->channelClientList($channel[$dbNameRank], "-groups")["data"];
 					foreach($peopleOnChannel as $person){
 						$clientGroups = explode(",", $person["client_servergroups"]);
 						if(in_array($channel["group_id"], $clientGroups)){
-           						$ts->serverGroupDeleteClient($channel["group_id"], $person['client_database_id']);
+							$channelInfo = $ts->channelInfo($channel[$dbNameMain])["data"];
+           					$ts->serverGroupDeleteClient($channel["group_id"], $person['client_database_id']);
 							$ts->clientKick($person["clid"], "channel", "Wlasnie odszedles z klanu!");
 							$ts->clientPoke($person["clid"], "Wlasnie odszedles z klanu!");
-
-                       					$ts->setClientChannelGroup(0, $channel[$zConfig["mainChannelTable"]], $person["client_database_id"]); 
+                       		$ts->setClientChannelGroup($zConfig["guestChannelGroup"], $channel[$dbNameMain], $person["client_database_id"]); 
 						}else{
-           						$ts->serverGroupAddClient($channel["group_id"], $person['client_database_id']);
-							$ts->clientMove($person["clid"], $channel[$zConfig["mainChannelTable"]]);
+           					$ts->serverGroupAddClient($channel["group_id"], $person['client_database_id']);
+							$ts->clientMove($person["clid"], $channel[$dbNameMain]);
 							$ts->clientPoke($person["clid"], "Wlasnie doszedles do klanu!");
-
-                       					$ts->setClientChannelGroup($zConfig["verifyChannelGroup"], $channel[$zConfig["mainChannelTable"]], $person["client_database_id"]); 
-
+                       		$ts->setClientChannelGroup($zConfig["verifyChannelGroup"], $channel[$dbNameMain], $person["client_database_id"]); 
 						}
 					}
 				}

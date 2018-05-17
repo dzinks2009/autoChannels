@@ -54,7 +54,7 @@ if($ts->getElement('success', $ts->connect())){
 				new checkIfOnChannel($ts, $config, $pdo);
 
 				echo "[ > ] Odpalam funkcje: checkNames".PHP_EOL;
-				new checkNames($ts, $config, $pdo);
+				//new checkNames($ts, $config, $pdo);
 
 				echo "[ > ] Odpalam funkcje: onlineMembers".PHP_EOL;
 				new onlineMembers($ts, $config, $pdo);
